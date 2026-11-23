@@ -139,16 +139,6 @@ Test different head poses, viewing angles, and fitting adjustments. Record:
 
 **Result:** Final demo, screenshots/videos, test results, and graduation documentation.
 
-## Optical Design Work (Teammate)
-
-In parallel with the GS application, the teammate will:
-
-1. Design and simulate the AR glasses optical system in **Zemax**.
-2. Determine key optical parameters, including **field of view (FOV), eye relief, eyebox**, and relevant optical-element positions.
-3. Evaluate optical performance and provide a concise **JSON/CSV parameter summary** for geometric alignment checks and the final project report.
-
-The glasses 3D asset and its integration into the avatar viewer belong to the GS/application workstream.
-
 ## Main Challenges
 
 | Challenge | Engineering approach |
