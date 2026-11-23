@@ -92,7 +92,7 @@ The avatar and glasses are **independent assets**. Glasses are added after head 
 
 **Result:** A reproducible dynamic Gaussian head and working render pipeline.
 
-### Phase 2 — Zemax Optical Design (Teammate)
+### Phase 2 — Zemax Optical Design
 
 1. Build and simulate the AR glasses optical system in Zemax.
 2. Determine field of view (FOV), eye relief, eyebox, and optical-element positions.
@@ -135,7 +135,7 @@ T_glasses_world(t) = T_head_world(t) × T_glasses_local
 
 **Result:** A usable interactive AR glasses try-on application.
 
-### Phase 6 — Optical Verification and Parameter Export (Teammate)
+### Phase 6 — Optical Verification and Parameter Export
 
 1. Verify the optical performance in Zemax.
 2. Export the main optical parameters and reference positions as JSON/CSV.
