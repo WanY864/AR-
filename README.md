@@ -171,7 +171,7 @@ The glasses 3D asset and its integration into the avatar viewer belong to the GS
 
 ## Team Responsibilities
 
-| Gaussian Splatting & application | Optics & glasses design |
+| Gaussian Splatting & application | Zemax optical parameter design |
 | --- | --- |
 | GaussianAvatars reproduction | Zemax optical system design |
 | FLAME pose extraction and attachment | FOV, eye relief, eyebox, and other optical parameter calculations |
