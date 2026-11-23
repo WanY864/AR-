@@ -1,4 +1,4 @@
-# AR Glasses Virtual Try-On with Dynamic Gaussian Avatars
+# AR Glasses Try-On with Dynamic Gaussian Avatars
 
 > **Project status:** Planning and implementation roadmap. The features described below are **proposed**, not yet implemented or experimentally validated.
 
