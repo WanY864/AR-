@@ -44,7 +44,7 @@ The viewer will concentrate on **head motion and eyewear fitting**, rather than 
 | Baseline dataset | [NeRSemble (preprocessed)](https://github.com/ShenhanQian/GaussianAvatars/blob/main/doc/download.md) | Official reproduction data |
 | Additional video data | [VHAP](https://github.com/ShenhanQian/VHAP) | Head tracking and dataset preparation |
 | Glasses model | Blender | Frame geometry and materials |
-| Optical system | Zemax OpticStudio | Optical geometry and reference parameters |
+| Optical parameters | Zemax OpticStudio | Optical design, performance simulation, and reference values |
 | Application | Python + GaussianAvatars Viewer | Interactive controls and combined rendering |
 | Training / rendering GPU | AutoDL | Reproduction, testing, and offline rendering |
 
@@ -61,7 +61,7 @@ GaussianAvatars + FLAME
           v
 Dynamic Gaussian Head ------> Head Pose / Reference Points
                                        |
-Zemax Optical Design                   |
+Zemax Optical Parameters               |
           |                            |
           v                            |
 Blender AR Glasses --------------------+
@@ -139,6 +139,16 @@ Test different head poses, viewing angles, and fitting adjustments. Record:
 
 **Result:** Final demo, screenshots/videos, test results, and graduation documentation.
 
+## Optical Design Work (Teammate)
+
+In parallel with the GS application, the teammate will:
+
+1. Design and simulate the AR glasses optical system in **Zemax**.
+2. Determine key optical parameters, including **field of view (FOV), eye relief, eyebox**, and relevant optical-element positions.
+3. Evaluate optical performance and provide a concise **JSON/CSV parameter summary** for geometric alignment checks and the final project report.
+
+The glasses 3D asset and its integration into the avatar viewer belong to the GS/application workstream.
+
 ## Main Challenges
 
 | Challenge | Engineering approach |
@@ -164,10 +174,10 @@ Test different head poses, viewing angles, and fitting adjustments. Record:
 | Gaussian Splatting & application | Optics & glasses design |
 | --- | --- |
 | GaussianAvatars reproduction | Zemax optical system design |
-| FLAME pose extraction and attachment | Optical layout and performance analysis |
-| Automatic fitting and geometric inspection | Blender frame and optical-component modeling |
-| Joint rendering and viewer controls | Dimensions and optical reference parameters |
-| Demonstration and system testing | Optical-design results and documentation |
+| FLAME pose extraction and attachment | FOV, eye relief, eyebox, and other optical parameter calculations |
+| Glasses mesh preparation, auto-fit, and geometric inspection | Optical layout and performance verification |
+| Joint rendering and viewer controls | Optical reference positions and parameter export |
+| Demonstration and application testing | Optical-design results and documentation |
 
 ## References
 
