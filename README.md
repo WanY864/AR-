@@ -92,7 +92,15 @@ The avatar and glasses are **independent assets**. Glasses are added after head 
 
 **Result:** A reproducible dynamic Gaussian head and working render pipeline.
 
-### Phase 2 — Glasses Preparation and Head Binding
+### Phase 2 — Zemax Optical Design (Teammate)
+
+1. Build and simulate the AR glasses optical system in Zemax.
+2. Determine field of view (FOV), eye relief, eyebox, and optical-element positions.
+3. Define optical reference coordinates and dimensions for virtual fitting.
+
+**Result:** An optical design and key parameters for the glasses prototype.
+
+### Phase 3 — Glasses Preparation and Head Binding
 
 1. Prepare the Blender glasses model with correct scale, orientation, and separate frame/lens materials.
 2. Define eye, nose, and glasses reference points.
@@ -107,7 +115,7 @@ T_glasses_world(t) = T_head_world(t) × T_glasses_local
 
 **Result:** The glasses stay attached while the Gaussian head moves.
 
-### Phase 3 — Automatic Fit and Geometric Inspection
+### Phase 4 — Automatic Fit and Geometric Inspection
 
 1. Calculate an initial glasses placement from FLAME head references.
 2. Align the glasses bridge and optical reference points with the face.
@@ -117,7 +125,7 @@ T_glasses_world(t) = T_head_world(t) × T_glasses_local
 
 **Result:** One-click initial fitting with visible geometric feedback.
 
-### Phase 4 — Interactive Viewer and Mixed Rendering
+### Phase 5 — Interactive Viewer and Mixed Rendering
 
 1. Integrate the Blender mesh into the GaussianAvatars viewing workflow.
 2. Match the camera, scale, depth, and rendering order of both representations.
@@ -127,7 +135,15 @@ T_glasses_world(t) = T_head_world(t) × T_glasses_local
 
 **Result:** A usable interactive AR glasses try-on application.
 
-### Phase 5 — Testing and Demonstration
+### Phase 6 — Optical Verification and Parameter Export (Teammate)
+
+1. Verify the optical performance in Zemax.
+2. Export the main optical parameters and reference positions as JSON/CSV.
+3. Provide the simulation results for fit checks and the final presentation.
+
+**Result:** Verified optical parameters and a short optical simulation report.
+
+### Phase 7 — Testing and Demonstration
 
 Test different head poses, viewing angles, and fitting adjustments. Record:
 
