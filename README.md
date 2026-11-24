@@ -87,13 +87,14 @@ The avatar and glasses are **independent assets**. Glasses are added after head 
 
 The optical and GS workstreams run **in parallel**. A provisional glasses mesh can be used for early integration while the final optical housing is being designed.
 
-### Phase 1 — GaussianAvatars Reproduction (GS)
+### Phase 1 — Human-Head Dataset Selection and GaussianAvatars Reproduction (GS)
 
-1. Set up GaussianAvatars on AutoDL and run the pretrained example.
-2. Reproduce one subject from the official preprocessed NeRSemble dataset.
-3. Export head-motion data, sample renders, and a short animation.
+1. Find and select a suitable human-head dataset as input data, checking head-motion coverage, camera information, and FLAME compatibility.
+2. Download and prepare the selected dataset (using preprocessed NeRSemble as the baseline).
+3. Set up GaussianAvatars on AutoDL, run the pretrained example, and reproduce a head sequence with the selected data.
+4. Export head-motion data, sample renders, and a short animation.
 
-**Result:** A working dynamic Gaussian head and rendering pipeline.
+**Result:** A documented input dataset, a reconstructed dynamic Gaussian head, and a working rendering pipeline.
 
 ### Phase 2 — Optical Architecture and Layout (Optics)
 
