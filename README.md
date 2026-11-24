@@ -1,17 +1,19 @@
-# AR Glasses Try-On with Dynamic Gaussian Avatars
+# AR Glasses Virtual Prototype: Optical Design and Gaussian Avatar Try-On
 
-An interactive virtual try-on system that places a Blender-designed AR glasses model on a photorealistic Gaussian head avatar. The system supports **automatic fitting, motion tracking, material customization, and geometric inspection**.
+An AR glasses virtual prototype combining **Zemax optical system design**, **Blender frame and housing modeling**, and a **GaussianAvatars virtual try-on application**. The final demonstration brings optical design, head-motion tracking, automatic fitting, and interactive visualization together.
 
 ## Motivation
 
-Designing AR glasses requires more than building an optical system. The frame and optical components must also be positioned correctly relative to the eyes, nose, and head, and remain aligned as the wearer moves.
+AR glasses need both a feasible optical system and a wearable structure. Field of view, eye relief, eyebox, ray paths, and optical component placement influence how the device should be designed; the frame must also fit the wearer's head and remain aligned during movement.
 
-This project provides a practical way to examine an AR glasses design **before manufacturing a physical prototype**. By combining dynamic Gaussian Splatting with a conventional 3D glasses model, we can visualize wearing conditions, detect geometric misalignment, and demonstrate design adjustments interactively.
+This project connects optical simulation with a photorealistic virtual prototype **before physical manufacturing**. The optical work provides a validated layout and 3D housing; the Gaussian Splatting work demonstrates how the proposed glasses fit and follow a moving head.
 
-Our focus is **system integration and application development**. We use the original [GaussianAvatars](https://github.com/ShenhanQian/GaussianAvatars) method without modifying its reconstruction algorithm.
+The Gaussian Splatting application reuses the original [GaussianAvatars](https://github.com/ShenhanQian/GaussianAvatars) method without changing its reconstruction algorithm.
 
 ## Project Goals
 
+- Design and assess an AR optical system in Zemax, including FOV, eye relief, eyebox, ray paths, distortion, and image quality.
+- Create an optical-layout-consistent glasses frame and housing in Blender.
 - Reconstruct and display a realistic dynamic human head using GaussianAvatars.
 - Import **one** AR glasses model designed in Blender, informed by a Zemax optical layout.
 - Automatically align the glasses with facial reference points.
@@ -43,8 +45,8 @@ The viewer will concentrate on **head motion and eyewear fitting**, rather than 
 | Head geometry and pose | [FLAME](https://flame.is.tue.mpg.de/) | Head reference coordinates and motion |
 | Baseline dataset | [NeRSemble (preprocessed)](https://github.com/ShenhanQian/GaussianAvatars/blob/main/doc/download.md) | Official reproduction data |
 | Additional video data | [VHAP](https://github.com/ShenhanQian/VHAP) | Head tracking and dataset preparation |
-| Glasses model | Blender | Frame geometry and materials |
-| Optical parameters | Zemax OpticStudio | Optical design, performance simulation, and reference values |
+| Glasses frame and housing | Blender | Frame, bridge, temples, optical-module enclosure, and mesh export |
+| Optical system | Zemax OpticStudio | Optical layout, ray tracing, performance analysis, and parameter export |
 | Application | Python + GaussianAvatars Viewer | Interactive controls and combined rendering |
 | Training / rendering GPU | AutoDL | Reproduction, testing, and offline rendering |
 
@@ -61,7 +63,7 @@ GaussianAvatars + FLAME
           v
 Dynamic Gaussian Head ------> Head Pose / Reference Points
                                        |
-Zemax Optical Parameters               |
+Zemax Optical Design                   |
           |                            |
           v                            |
 Blender AR Glasses --------------------+
@@ -83,29 +85,45 @@ The avatar and glasses are **independent assets**. Glasses are added after head 
 
 ## Development Plan
 
-### Phase 1 — GaussianAvatars Reproduction
+The optical and GS workstreams run **in parallel**. A provisional glasses mesh can be used for early integration while the final optical housing is being designed.
 
-1. Set up the official GaussianAvatars environment on AutoDL.
-2. Run the pretrained example and verify dynamic head rendering.
-3. Reproduce one subject from the preprocessed NeRSemble dataset.
-4. Export sample renders, head-pose data, and a short motion sequence.
+### Phase 1 — GaussianAvatars Reproduction (GS)
 
-**Result:** A reproducible dynamic Gaussian head and working render pipeline.
+1. Set up GaussianAvatars on AutoDL and run the pretrained example.
+2. Reproduce one subject from the official preprocessed NeRSemble dataset.
+3. Export head-motion data, sample renders, and a short animation.
 
-### Phase 2 — Zemax Optical Design
+**Result:** A working dynamic Gaussian head and rendering pipeline.
 
-1. Build and simulate the AR glasses optical system in Zemax.
-2. Determine field of view (FOV), eye relief, eyebox, and optical-element positions.
-3. Define optical reference coordinates and dimensions for virtual fitting.
+### Phase 2 — Optical Architecture and Layout (Optics)
 
-**Result:** An optical design and key parameters for the glasses prototype.
+1. Compare feasible AR optical architectures, such as birdbath and waveguide, and select one.
+2. Build the optical layout in Zemax, including the display, optical surfaces, and element positions.
+3. Trace the light path and establish FOV, eye relief, eyebox, and packaging constraints.
 
-### Phase 3 — Glasses Preparation and Head Binding
+**Result:** A defined optical system with reference geometry and target specifications.
 
-1. Prepare the Blender glasses model with correct scale, orientation, and separate frame/lens materials.
-2. Define eye, nose, and glasses reference points.
-3. Use FLAME head pose to update the glasses transform during animation.
-4. Validate attachment across head rotations and translations.
+### Phase 3 — Optical Simulation and Verification (Optics)
+
+1. Evaluate the design with ray tracing, spot diagrams, MTF, and distortion analysis.
+2. Optimize the selected optical parameters and check ray-path clearances.
+3. Export the optical geometry, key parameters, and simulation results for integration.
+
+**Result:** An evaluated Zemax design and an optical-parameter file (JSON/CSV).
+
+### Phase 4 — Glasses Frame and Housing Design (Optics / Modeling)
+
+1. Build the front frame, bridge, temples, and optical-module housing in Blender.
+2. Arrange optical elements and mounting structures according to the Zemax layout.
+3. Check that the frame does not obstruct the designed light path and export the 3D mesh.
+
+**Result:** A dimensioned AR glasses model consistent with the optical design.
+
+### Phase 5 — Glasses Integration and Head Binding (GS)
+
+1. Import the glasses model and align its scale, axes, and reference points with FLAME.
+2. Read the FLAME head pose and update the glasses transform during recorded head motion.
+3. Verify stable attachment during head rotations and translations.
 
 The glasses follow the head through a head-local transform:
 
@@ -113,47 +131,34 @@ The glasses follow the head through a head-local transform:
 T_glasses_world(t) = T_head_world(t) × T_glasses_local
 ```
 
-**Result:** The glasses stay attached while the Gaussian head moves.
+**Result:** A dynamic Gaussian head wearing a synchronized AR glasses model.
 
-### Phase 4 — Automatic Fit and Geometric Inspection
+### Phase 6 — Automatic Fitting and Geometric Inspection (GS)
 
-1. Calculate an initial glasses placement from FLAME head references.
-2. Align the glasses bridge and optical reference points with the face.
-3. Add manual adjustment controls for position and rotation.
-4. Estimate clearances and flag intersections with the head mesh.
-5. Display fit measurements and warnings in the viewer.
+1. Estimate initial glasses placement using eye and nose-bridge reference regions.
+2. Add one-click automatic fitting and manual position/rotation adjustment.
+3. Check eye alignment, clearances, and visible intersections with the head mesh.
+4. Use the exported optical positions and eye-relief reference for geometric checks.
 
-**Result:** One-click initial fitting with visible geometric feedback.
+**Result:** Automatic fitting with visual measurements and warnings.
 
-### Phase 5 — Interactive Viewer and Mixed Rendering
+### Phase 7 — Interactive Viewer and Mixed Rendering (GS)
 
-1. Integrate the Blender mesh into the GaussianAvatars viewing workflow.
-2. Match the camera, scale, depth, and rendering order of both representations.
-3. Handle face/frame occlusion and transparent lens materials.
-4. Add Wear/Remove, color, fitting, playback, and camera controls.
-5. Prepare an offline video export for presentations.
+1. Render the Gaussian head and glasses mesh with consistent camera and depth handling.
+2. Address face/frame occlusion and lens-material visualization.
+3. Add Wear/Remove, frame-color, fitting, playback, and camera controls.
+4. Export demonstration videos.
 
-**Result:** A usable interactive AR glasses try-on application.
+**Result:** An interactive virtual try-on application.
 
-### Phase 6 — Optical Verification and Parameter Export
+### Phase 8 — Integration, Testing, and Demonstration (Joint)
 
-1. Verify the optical performance in Zemax.
-2. Export the main optical parameters and reference positions as JSON/CSV.
-3. Provide the simulation results for fit checks and the final presentation.
+1. Verify that the Blender housing, optical references, and virtual fitting coordinates agree.
+2. Demonstrate head-motion tracking, automatic fitting, and the final optical-glasses geometry.
+3. Document fit measurements, rendering performance, and Zemax optical results.
+4. Prepare the final demonstration and graduation presentation.
 
-**Result:** Verified optical parameters and a short optical simulation report.
-
-### Phase 7 — Testing and Demonstration
-
-Test different head poses, viewing angles, and fitting adjustments. Record:
-
-- Glasses alignment and attachment stability during motion.
-- Automatic fitting results before and after manual correction.
-- Visible collisions and occlusion behavior from different angles.
-- Viewer responsiveness, rendering FPS, and GPU memory usage.
-- Successful operation of each interactive control.
-
-**Result:** Final demo, screenshots/videos, test results, and graduation documentation.
+**Result:** A combined optical-design and Gaussian-avatar virtual prototype.
 
 ## Main Challenges
 
@@ -165,9 +170,14 @@ Test different head poses, viewing angles, and fitting adjustments. Record:
 | **Automatic fitting** | Align to eye/nose geometry, check clearance, and provide manual refinement. |
 | **Real-time interaction** | Extend the Python viewer incrementally, starting with verified offline rendering. |
 | **Dataset compatibility** | Begin with official NeRSemble data; use VHAP when adding new head videos. |
+| **Optical architecture and image quality** | Choose a feasible optical layout and validate FOV, aberrations, MTF, and distortion in Zemax. |
+| **Housing and optical clearance** | Model frame and mounting geometry around the ray path and optical element positions. |
 
 ## Expected Deliverables
 
+- Zemax optical design with ray-tracing, image-quality, and distortion results.
+- Blender AR glasses frame, housing, and optical component model.
+- Optical specification and component-position export for integration.
 - Reproducible GaussianAvatars setup and dynamic head model.
 - Blender AR glasses asset integrated with FLAME head motion.
 - Automatic fitting and geometric inspection module.
@@ -177,13 +187,15 @@ Test different head poses, viewing angles, and fitting adjustments. Record:
 
 ## Team Responsibilities
 
-| Gaussian Splatting & application | Zemax optical parameter design |
+| Gaussian Splatting & Application | Optical Design & Glasses Modeling |
 | --- | --- |
-| GaussianAvatars reproduction | Zemax optical system design |
-| FLAME pose extraction and attachment | FOV, eye relief, eyebox, and other optical parameter calculations |
-| Glasses mesh preparation, auto-fit, and geometric inspection | Optical layout and performance verification |
-| Joint rendering and viewer controls | Optical reference positions and parameter export |
-| Demonstration and application testing | Optical-design results and documentation |
+| GaussianAvatars reproduction and head-motion data | Optical architecture selection and Zemax layout |
+| FLAME-based glasses attachment | Ray tracing, FOV, eyebox, eye relief, MTF, and distortion evaluation |
+| Automatic fitting and geometric inspection | Optical system refinement and component positioning |
+| Gaussian + mesh rendering and viewer controls | Blender frame, temples, and optical-module housing |
+| Application tests, fit evaluation, and demonstration | Optical verification, exported parameters, and design documentation |
+
+The two workstreams meet at the **3D glasses model, coordinate system, and optical reference parameters**.
 
 ## References
 
